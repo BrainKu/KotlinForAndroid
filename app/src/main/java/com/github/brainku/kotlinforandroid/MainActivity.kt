@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import com.github.brainku.kotlinforandroid.utils.launchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,18 +14,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        testSomething()
         val view = findViewById<TextView>(R.id.tvTest)
         view.setOnClickListener{
             toast(tvTest.text)
-            toast(MainActivity::class.java.simpleName)
+            launchActivity(RecyclerListActivity::class)
         }
-        tvTest.text = addI(1, 3).toString()
     }
 
     private fun testSomething() {
         var notNullArtist: Artist? = null
-        Log.d(TAG, "artist $notNullArtist")
+        Log.d(aTAG, "artist $notNullArtist")
         toast("artist $notNullArtist")
         Toast.makeText(this@MainActivity, "artist $notNullArtist", Toast.LENGTH_SHORT).show()
         val name = notNullArtist?.name ?: "empty"
@@ -36,6 +35,6 @@ fun Context.toast(msg: CharSequence) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-val TAG: String = "MainActivity"
+val aTAG: String = "MainActivity"
 
 
