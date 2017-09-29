@@ -1,5 +1,7 @@
 package com.github.brainku.kotlinforandroid
 
+import java.util.*
+
 /**
  * Created by brainku on 17/9/27.
  */
@@ -11,12 +13,18 @@ data class Artist(
         var mbid: String
 )
 
-class Person(name: String, age: Int): Animal(name)
+
+public class Person() {
+    var name: String = ""
+        get() = field.toUpperCase().isEmpty().toString()
+    set(value) {
+        field = "Name: $value"
+    }
+
+    val age: Int
+        get() = 2222
+}
 
 open class Animal(name: String)
 
-fun add(x: Int, y: Int): Int {
-    return x + y
-}
-
-fun addI(x: Int, y: Int) = x + y
+data class Forecast(val date: Date, val temperature: Float, val details: String)

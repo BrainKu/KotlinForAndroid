@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  * Created by brainku on 17/9/28.
  */
 
-fun Context.toast(msg: String) {
+fun Context.toast(msg: CharSequence) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 

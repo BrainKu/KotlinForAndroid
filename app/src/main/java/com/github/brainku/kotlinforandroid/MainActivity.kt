@@ -7,7 +7,10 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import com.github.brainku.kotlinforandroid.utils.launchActivity
+import com.github.brainku.kotlinforandroid.utils.logD
+import com.github.brainku.kotlinforandroid.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +22,23 @@ class MainActivity : AppCompatActivity() {
             toast(tvTest.text)
             launchActivity(RecyclerListActivity::class)
         }
+        testPerson()
+        testCopy()
+    }
+
+    private fun testPerson() {
+        val p = Person()
+        p.logD(info = "person age: ${p.age}, name: ${p.name}")
+        val map = mapOf<String, String>(Pair("A" , "B"), Pair("B", "C"))
+        for ((key, value) in map) {
+            map.logD(info = "key:$key, value:$value")
+        }
+    }
+
+    private fun testCopy() {
+        val f1 = Forecast(Date(), 11.2f, "help!")
+        val f2 = f1.copy(temperature = 11.4f)
+        f2.logD(info = f2.toString())
     }
 
     private fun testSomething() {
@@ -29,10 +49,12 @@ class MainActivity : AppCompatActivity() {
         val name = notNullArtist?.name ?: "empty"
         Toast.makeText(this, name, Toast.LENGTH_SHORT).show()
     }
-}
 
-fun Context.toast(msg: CharSequence) {
-    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    companion object {
+        private val APP_ID = ""
+        private val URL = ""
+        private val COMPLETE_URL = "$URL&APPID=$APP_ID&q="
+    }
 }
 
 val aTAG: String = "MainActivity"
