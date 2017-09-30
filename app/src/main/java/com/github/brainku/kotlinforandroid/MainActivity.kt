@@ -18,18 +18,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val view = findViewById<TextView>(R.id.tvTest)
-        view.setOnClickListener{
+        view.setOnClickListener {
             toast(tvTest.text)
             launchActivity(RecyclerListActivity::class)
         }
         testPerson()
         testCopy()
+        testOperatorOverload()
     }
 
     private fun testPerson() {
-        val p = Person()
+        val p = Person("name", 11)
         p.logD(info = "person age: ${p.age}, name: ${p.name}")
-        val map = mapOf<String, String>(Pair("A" , "B"), Pair("B", "C"))
+        val map = mapOf<String, String>(Pair("A", "B"), Pair("B", "C"))
         for ((key, value) in map) {
             map.logD(info = "key:$key, value:$value")
         }
@@ -39,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         val f1 = Forecast(Date(), 11.2f, "help!")
         val f2 = f1.copy(temperature = 11.4f)
         f2.logD(info = f2.toString())
+    }
+
+    private fun testOperatorOverload() {
+        val person = Person(name = "Hello", age = 1)
+        val person2 = Person(name = " world", age = 22);
+        logD(tag = "Operator", info = (person + person2).toString())
     }
 
     private fun testSomething() {

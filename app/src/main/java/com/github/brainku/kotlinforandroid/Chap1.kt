@@ -14,15 +14,8 @@ data class Artist(
 )
 
 
-public class Person() {
-    var name: String = ""
-        get() = field.toUpperCase().isEmpty().toString()
-    set(value) {
-        field = "Name: $value"
-    }
-
-    val age: Int
-        get() = 2222
+class Person(var name: String, val age: Int) {
+    operator fun plus(person: Person) :Person = Person(this.name + person.name, this.age)
 }
 
 open class Animal(name: String)
