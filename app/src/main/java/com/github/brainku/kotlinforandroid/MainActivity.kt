@@ -20,11 +20,16 @@ class MainActivity : AppCompatActivity() {
         val view = findViewById<TextView>(R.id.tvTest)
         view.setOnClickListener {
             toast(tvTest.text)
-            launchActivity(RecyclerListActivity::class)
+            launchActivity(SimpleLandActivity::class)
         }
         testPerson()
         testCopy()
         testOperatorOverload()
+        tvTest.text = getScaledDensity().toString()
+    }
+
+    private fun getScaledDensity(): Float {
+        return resources.displayMetrics.scaledDensity
     }
 
     private fun testPerson() {
