@@ -20,7 +20,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
-public class CCCGIAnnotationProcessor extends AbstractProcessor {
+public class CGIAnnotationProcessor extends AbstractProcessor {
     private static String PACKAGE;
     private static ClassName CONSTANTS_CLASS;
     private static final String CLASS = "CGIApi";
@@ -68,7 +68,7 @@ public class CCCGIAnnotationProcessor extends AbstractProcessor {
         for (Element element : elements) {
             SimpleCGI simpleCGI = element.getAnnotation(SimpleCGI.class);
             if (!checkValid(element, simpleCGI.value())) {
-                printMessage(Diagnostic.Kind.ERROR, String.format("Invalid %s @SimpleCGI annotation with values: %s", element.getSimpleName(), Arrays.toString(simpleCGI.value())));
+                printMessage(Diagnostic.Kind.ERROR, String.format("Invalid field:%s @SimpleCGI annotation with values: %s", element.getSimpleName(), Arrays.toString(simpleCGI.value())));
                 continue;
             }
             String name = element.getSimpleName().toString();
@@ -90,7 +90,7 @@ public class CCCGIAnnotationProcessor extends AbstractProcessor {
         for (Element element : elements) {
             CGI host = element.getAnnotation(CGI.class);
             if (!checkValid(element, host.value())) {
-                printMessage(Diagnostic.Kind.ERROR, String.format("Invalid %s @CCHOST annotation with values: %s", element.getSimpleName(), Arrays.toString(host.value())));
+                printMessage(Diagnostic.Kind.ERROR, String.format("Invalid field:%s @CCHOST annotation with values: %s", element.getSimpleName(), Arrays.toString(host.value())));
                 continue;
             }
             String name = element.getSimpleName().toString();
