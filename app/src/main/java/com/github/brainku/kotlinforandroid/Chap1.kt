@@ -14,7 +14,7 @@ data class Artist(
 )
 
 
-class Person(var name: String, val age: Int) {
+class Person(var name: String, val age: Int = 11) {
     operator fun plus(person: Person) :Person = Person(this.name + person.name, this.age)
 }
 

@@ -1,14 +1,16 @@
 package com.github.brainku.kotlinforandroid
 
+import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.github.brainku.kotlinforandroid.utils.debug
+import com.github.brainku.kotlinforandroid.utils.logD
+import com.github.brainku.kotlinforandroid.utils.supportAPI25
 import com.github.brainku.kotlinforandroid.utils.toast
 import kotlinx.android.synthetic.main.activity_chap1_recyclerview.*
 
@@ -19,26 +21,42 @@ import kotlinx.android.synthetic.main.activity_chap1_recyclerview.*
 class RecyclerListActivity : AppCompatActivity() {
 
     val data = listOf<String>(
-            "测试字体 ABCDEFGH 1234567890",
-            "测试字体 ABCDEFGH 1234567890",
-            "测试字体 ABCDEFGH 1234567890",
-            "测试字体 ABCDEFGH 1234567890",
-            "测试字体 ABCDEFGH 1234567890"
+            "A - Test",
+            "B - Test",
+            "C - Test",
+            "D - Test",
+            "E - Test"
+    )
+
+    val peopels = listOf<Person>(Person("name"),
+            Person("name"),
+            Person("name"),
+            Person("name"),
+            Person("name"),
+            Person("name"),
+            Person("name")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chap1_recyclerview)
-        recyclerList.adapter = RecyclerListAdapter(data) { toast("CLICK") }
+        recyclerList.adapter = RecyclerListAdapter(peopels) { toast(it.name) }
+
         recyclerList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-                outRect?.set(5, 5, 5, 5)
+                outRect?.set(10, 10, 0, 10)
             }
         })
+        supportAPI25 {
+            logD(info = "Hello API 25")
+        }
+        debug {
+            logD(info = "I'm debug")
+        }
     }
 }
 
-class RecyclerListAdapter(private val items: List<String>, private val itemClickListener: (String) -> Unit) : RecyclerView.Adapter<RecyclerListAdapter.ViewHolder>() {
+class RecyclerListAdapter(private val items: List<Person>, private val itemClickListener: (Person) -> Unit) : RecyclerView.Adapter<RecyclerListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         return ViewHolder(TextView(parent?.context), itemClickListener)
     }
@@ -48,21 +66,28 @@ class RecyclerListAdapter(private val items: List<String>, private val itemClick
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(position, items[position])
+        with(holder, {
+            bindView(items[position])
+            updateTextColor(Color.BLACK)
+            updateTextSize(items[position].age)
+        })
     }
 
-    class ViewHolder(val view: TextView, val listener: (String) -> Unit) : RecyclerView.ViewHolder(view) {
-        init {
-            view.textSize = 20f
+    class ViewHolder(private val view: TextView, private val listener: (Person) -> Unit) : RecyclerView.ViewHolder(view) {
+        fun bindView(person: Person) {
+            view.text = person.name
+            view.setOnClickListener {
+//                Toast.makeText(App.instance(), "", Toast.LENGTH_SHORT).show();
+                listener(person)
+            }
         }
-        fun bindView(pos: Int, text: String) {
-            view.text = text
-            view.setOnClickListener { listener(text) }
-            view.setTypeface(null,
-                    if (pos % 2 == 0)
-                        Typeface.BOLD
-                    else
-                        Typeface.NORMAL)
+
+        fun updateTextColor(color: Int) {
+            view.setTextColor(color)
+        }
+
+        fun updateTextSize(size: Int) {
+            view.textSize = size.toFloat()
         }
     }
 }

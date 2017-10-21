@@ -1,14 +1,13 @@
 package com.github.brainku.kotlinforandroid
 
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import com.github.brainku.kotlinforandroid.utils.launchActivity
 import com.github.brainku.kotlinforandroid.utils.logD
 import com.github.brainku.kotlinforandroid.utils.toast
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -20,20 +19,31 @@ class MainActivity : AppCompatActivity() {
         val view = findViewById<TextView>(R.id.tvTest)
         view.setOnClickListener {
             toast(tvTest.text)
-            launchActivity(SimpleLandActivity::class)
+            testRxForLoop()
         }
-        testPerson()
-        testCopy()
-        testOperatorOverload()
-        tvTest.text = getScaledDensity().toString()
+//        testPerson()
+//        testCopy()
+//        testOperatorOverload()
     }
 
-    private fun getScaledDensity(): Float {
-        return resources.displayMetrics.scaledDensity
+    private fun testRxForLoop() {
+        Observable.create<String> {
+            for (i in 0..10) {
+                it.onNext(i.toString())
+                if (i == 4) {
+                    return@create
+                }
+            }
+            it.onComplete()
+        }.subscribe({
+            logD(info = "info" + it)
+        }, { t -> logD(info = t.toString())}, {
+            logD(info ="onComplete")
+        })
     }
 
     private fun testPerson() {
-        val p = Person("name", 11)
+        val p = Person("name", age = 11)
         p.logD(info = "person age: ${p.age}, name: ${p.name}")
         val map = mapOf<String, String>(Pair("A", "B"), Pair("B", "C"))
         for ((key, value) in map) {
@@ -48,9 +58,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testOperatorOverload() {
-        val person = Person(name = "Hello", age = 1)
-        val person2 = Person(name = " world", age = 22);
-        logD(tag = "Operator", info = (person + person2).toString())
     }
 
     private fun testSomething() {
