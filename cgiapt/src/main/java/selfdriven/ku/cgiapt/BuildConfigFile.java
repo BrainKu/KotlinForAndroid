@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by brainku on 17/10/21.
+ * Created by brainku on 17/10/22.
  */
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.FIELD)
-public @interface CGI {
-    String[] value();
+public @interface BuildConfigFile {
+    Class<?> value();
 }

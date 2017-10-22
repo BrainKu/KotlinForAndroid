@@ -18,8 +18,6 @@ class Person(var name: String, val age: Int = 11) {
     operator fun plus(person: Person) :Person = Person(this.name + person.name, this.age)
 }
 
-open class Animal(name: String)
-
 data class Forecast(val date: Date, val temperature: Float, val details: String)
 
 class BasicGraphic(val name: String) {

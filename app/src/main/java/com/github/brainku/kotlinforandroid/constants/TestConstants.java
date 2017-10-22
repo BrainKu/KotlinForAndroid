@@ -1,5 +1,10 @@
 package com.github.brainku.kotlinforandroid.constants;
 
+import android.os.Build;
+
+import com.github.brainku.kotlinforandroid.BuildConfig;
+
+import selfdriven.ku.cgiapt.BuildConfigFile;
 import selfdriven.ku.cgiapt.CGI;
 import selfdriven.ku.cgiapt.SimpleCGI;
 
@@ -7,6 +12,7 @@ import selfdriven.ku.cgiapt.SimpleCGI;
  * Created by brainku on 17/10/21.
  */
 
+@BuildConfigFile(BuildConfig.class)
 public class TestConstants {
 
     public static boolean DEBUG = false;
@@ -20,14 +26,21 @@ public class TestConstants {
     static final String C_HOST = "C_HOST_CGI";
     static final String C_HOST_DEBUG = "C_HOST_DEBUG_CGI";
 
-    @SimpleCGI({"C_HOST", "/CONTENT"})
+
+    static final String D_HOST = "D_HOST_CGI";
+    static final String D_HOST_DEBUG = "D_HOST_DEBUG_CGI";
+
+    static final String STAR_HOST = "http://start.com";
+    static final String STAR_HOST_DEBUG = "http://debug.star";
+
+    @SimpleCGI({C_HOST, "/CONTENT"})
     public static String simpleA = C_HOST + "/CONTENT";
 
-    @CGI({A, A_DEBUG})
-    public static String a = A;
+    @SimpleCGI({D_HOST, "/HELLO_WORLD"})
+    public static String helloD;
 
-    @CGI({B, B_DEBUG})
-    public static String b;
+    @SimpleCGI({STAR_HOST, "/content"})
+    public static String startvalue;
 
     @CGI({C, C_DEBUG})
     public static String c;
@@ -37,6 +50,6 @@ public class TestConstants {
     }
 
     private static void initEnv() {
-        CGIApi.initCGI(DEBUG);
+        CGIInitHelper.initCGI(DEBUG);
     }
 }
